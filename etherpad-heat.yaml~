@@ -10,13 +10,13 @@ resources:
       flavor: m1.small
       user_data: |
         #!/bin/bash
-        yum -y install gzip git curl python openssl-devel > /tmp/install.log
-        yum -y groupinstall "Development Tools" >> /tmp/install.log
+        yum -y install gzip git curl python openssl-devel
+        yum -y groupinstall "Development Tools"
         curl --silent --location https://rpm.nodesource.com/setup | bash -
-        yum -y install nodejs >> /tmp/install.log
+        yum -y install nodejs
         git clone git://github.com/ether/etherpad-lite.git
         cd etherpad-lite
-        bin/run.sh --root >> /tmp/install.log
+        bin/run.sh --root
 
 outputs:
   URL:
