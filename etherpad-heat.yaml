@@ -1,0 +1,29 @@
+heat_template_version: 2013-05-23
+
+description: Simple template to deploy a single compute instance
+
+resources:
+  my_instance:
+    type: OS::Nova::Server
+    properties:
+      image: Eduardo-CentOS-2
+      flavor: m1.small
+      user_data: |
+        #!/bin/bash
+        yum -y install gzip git curl python openssl-devel
+        yum -y groupinstall "Development Tools"
+        curl --silent --location https://rpm.nodesource.com/setup | bash -
+        yum -y install nodejs
+        git clone git://github.com/ether/etherpad-lite.git
+        cd etherpad-lite
+        bin/run.sh --root
+
+outputs:
+  URL:
+    description: Etherpad URL
+    value: 
+      str_replace:
+        template: http://host:9001
+        params:
+          host: { get_attr: [my_instance, first_address] }
+
